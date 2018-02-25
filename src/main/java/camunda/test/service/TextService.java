@@ -1,0 +1,74 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package camunda.test.service;
+
+import camunda.test.jpa.model.StatisticData;
+import camunda.test.jpa.model.Text;
+import camunda.test.jpa.model.Token;
+import camunda.test.jpa.repository.TextRepository;
+import camunda.test.jpa.repository.TokenRepository;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+/**
+ *
+ * @author Marijo
+ */
+@Slf4j
+@Service
+public class TextService {
+
+    @Autowired
+    private TextRepository textRepository;
+
+    @Autowired
+    private TokenRepository tokenRepository;
+
+    public Text storeText(String text) {
+        Text t = new Text();
+        t.setText(text);
+        return textRepository.save(t);
+    }
+
+    public void tokenizeText(Long textId) {
+        Text text = textRepository.findOne(textId);
+        String[] tokens = text.getText().split(" |\r\n|\t");
+        for (String token : tokens) {
+            Token t = tokenRepository.findByText(token);
+            if (t == null) {
+                StatisticData statisticData = new StatisticData();
+                statisticData.setTokenCount(1L);
+                statisticData.setToken(t);
+
+                t = new Token();
+                t.setToken(token);
+                t.setText(text);
+                t.setStatisticData(statisticData);
+                
+                text.getTokens().add(t);
+            } else {
+                StatisticData sd = t.getStatisticData();
+                sd.setTokenCount(sd.getTokenCount() + 1L);
+                
+                if (!text.getTokens().contains(t)){
+                    text.getTokens().add(t);
+                }
+            }
+        }
+    }
+
+    public Map<String, Long> fetchTextStatistics(Long textId) {
+        Text text = textRepository.findOne(textId);
+        Map<String, Long> statistics = new HashMap<>();
+        List<Token> tokens = text.getTokens();
+        tokens.stream().forEach(token -> statistics.put(token.getToken(), token.getStatisticData().getTokenCount()));
+        return statistics;
+    }
+}
