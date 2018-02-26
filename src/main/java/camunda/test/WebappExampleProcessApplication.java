@@ -5,8 +5,9 @@ package camunda.test;
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+import camunda.test.util.CustomCamundaProcessEngineConfiguration;
 import com.zaxxer.hikari.HikariDataSource;
-import org.camunda.bpm.engine.spring.SpringProcessEngineConfiguration;
+import org.camunda.bpm.spring.boot.starter.configuration.CamundaProcessEngineConfiguration;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
@@ -45,12 +46,19 @@ public class WebappExampleProcessApplication {
         return dataSourceTransactionManager;
     }
 
-/*    @Bean
+    @Bean
+    public static CamundaProcessEngineConfiguration camundaProcessEngineConfiguration(HikariDataSource hikariDataSource, DataSourceTransactionManager dataSourceTransactionManager) {
+        return new CustomCamundaProcessEngineConfiguration(hikariDataSource,dataSourceTransactionManager);
+    }
+
+/*
+    @Bean
     public SpringProcessEngineConfiguration processEngineConfiguration(HikariDataSource hikariDataSource, DataSourceTransactionManager dataSourceTransactionManager){
         SpringProcessEngineConfiguration springProcessEngineConfiguration = new SpringProcessEngineConfiguration();
         springProcessEngineConfiguration.setDataSource(hikariDataSource);
         springProcessEngineConfiguration.setTransactionManager(dataSourceTransactionManager);
         springProcessEngineConfiguration.setDatabaseSchemaUpdate("create");
         return springProcessEngineConfiguration;
-    }*/
+    }
+*/
 }
