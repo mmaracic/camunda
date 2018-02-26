@@ -6,6 +6,7 @@ package camunda.test;
  * and open the template in the editor.
  */
 import com.zaxxer.hikari.HikariDataSource;
+import org.camunda.bpm.engine.spring.SpringProcessEngineConfiguration;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
@@ -14,6 +15,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
+import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 
 /**
  *
@@ -35,4 +37,20 @@ public class WebappExampleProcessApplication {
         return (HikariDataSource) properties.initializeDataSourceBuilder()
                 .type(HikariDataSource.class).build();
     }
+
+    @Bean
+    public DataSourceTransactionManager transactionManager(HikariDataSource hikariDataSource){
+        DataSourceTransactionManager dataSourceTransactionManager = new DataSourceTransactionManager();
+        dataSourceTransactionManager.setDataSource(hikariDataSource);
+        return dataSourceTransactionManager;
+    }
+
+/*    @Bean
+    public SpringProcessEngineConfiguration processEngineConfiguration(HikariDataSource hikariDataSource, DataSourceTransactionManager dataSourceTransactionManager){
+        SpringProcessEngineConfiguration springProcessEngineConfiguration = new SpringProcessEngineConfiguration();
+        springProcessEngineConfiguration.setDataSource(hikariDataSource);
+        springProcessEngineConfiguration.setTransactionManager(dataSourceTransactionManager);
+        springProcessEngineConfiguration.setDatabaseSchemaUpdate("create");
+        return springProcessEngineConfiguration;
+    }*/
 }

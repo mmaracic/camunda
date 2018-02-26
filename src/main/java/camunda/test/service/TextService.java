@@ -43,16 +43,19 @@ public class TextService {
         for (String token : tokens) {
             Token t = tokenRepository.findByValue(token);
             if (t == null) {
-                StatisticData statisticData = new StatisticData();
-                statisticData.setTokenCount(1L);
-                statisticData.setToken(t);
 
                 t = new Token();
+                StatisticData statisticData = new StatisticData();
+
                 t.setValue(token);
                 t.setText(text);
                 t.setStatisticData(statisticData);
-                
+
+                statisticData.setTokenCount(1L);
+                statisticData.setToken(t);
+
                 text.getTokens().add(t);
+                tokenRepository.save(t);
             } else {
                 StatisticData sd = t.getStatisticData();
                 sd.setTokenCount(sd.getTokenCount() + 1L);

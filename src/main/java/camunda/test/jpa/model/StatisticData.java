@@ -30,6 +30,6 @@ public class StatisticData extends DatabaseObject implements Serializable {
     private Long tokenCount;
     
     @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "token_id")
+    @JoinColumn(name = "token_id", nullable = false)
     private Token token;
 }
