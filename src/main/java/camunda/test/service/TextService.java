@@ -41,14 +41,14 @@ public class TextService {
         Text text = textRepository.findOne(textId);
         String[] tokens = text.getText().split(" |\r\n|\t");
         for (String token : tokens) {
-            Token t = tokenRepository.findByText(token);
+            Token t = tokenRepository.findByValue(token);
             if (t == null) {
                 StatisticData statisticData = new StatisticData();
                 statisticData.setTokenCount(1L);
                 statisticData.setToken(t);
 
                 t = new Token();
-                t.setToken(token);
+                t.setValue(token);
                 t.setText(text);
                 t.setStatisticData(statisticData);
                 
@@ -68,7 +68,7 @@ public class TextService {
         Text text = textRepository.findOne(textId);
         Map<String, Long> statistics = new HashMap<>();
         List<Token> tokens = text.getTokens();
-        tokens.stream().forEach(token -> statistics.put(token.getToken(), token.getStatisticData().getTokenCount()));
+        tokens.stream().forEach(token -> statistics.put(token.getValue(), token.getStatisticData().getTokenCount()));
         return statistics;
     }
 }

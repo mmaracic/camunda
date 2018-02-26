@@ -29,7 +29,7 @@ import lombok.Setter;
 public class Token extends DatabaseObject implements Serializable {
     
     @Column(name = "token", nullable = false, length = 50)
-    private String token;
+    private String value;
     
     @OneToOne(mappedBy = "token", cascade = CascadeType.ALL)
     private StatisticData statisticData;

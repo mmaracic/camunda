@@ -13,5 +13,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
  * @author Marijo
  */
 public interface TokenRepository extends JpaRepository<Token, Long>{
-    Token findByText(String text);
+    Token findByValue(String text);
 }
