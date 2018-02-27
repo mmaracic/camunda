@@ -17,6 +17,7 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 /**
  *
@@ -24,6 +25,7 @@ import org.springframework.jdbc.datasource.DataSourceTransactionManager;
  */
 @SpringBootApplication
 @EnableJpaAuditing
+@EnableTransactionManagement
 @ComponentScan(basePackages = {"camunda.test.controller", "camunda.test.delegate", "camunda.test.service"})
 @EntityScan(basePackages = {"camunda.test.jpa.model"})
 @EnableJpaRepositories(basePackages = {"camunda.test.jpa.repository"})

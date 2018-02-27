@@ -33,7 +33,6 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 @SequenceGenerator(name = "sequence_generator", sequenceName = "seq_text_id", allocationSize = 50)
 @EntityListeners(AuditingEntityListener.class)
 public class Text extends DatabaseObject implements Serializable {
-    @Lob
     @Column(name = "text", nullable = false)
     private String text;
     
