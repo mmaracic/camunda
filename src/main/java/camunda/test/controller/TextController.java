@@ -36,13 +36,14 @@ public class TextController {
     
     @PostMapping(path = "/submit")
     @ResponseBody
-    public Map<String,Long> submitText(@RequestBody String submittedText){
+    public void submitText(@RequestBody String submittedText){
         Map<String, Object> variables = new HashMap<>();
         variables.put(TEXT, submittedText);
         ProcessInstanceWithVariables  process = runtimeService.createProcessInstanceByKey(TEXT_CAMUNDA_PROCESS_NAME).setVariables(variables).executeWithVariablesInReturn();
-        VariableMap returnVariables = process.getVariables();
-        Map<String,Long> statistics = returnVariables.getValue(STATISTICS, Map.class);
-        return  statistics;
+// Return won't work when activities are asynchronous
+//        VariableMap returnVariables = process.getVariables();
+//        Map<String,Long> statistics = returnVariables.getValue(STATISTICS, Map.class);
+//        return  statistics;
     }
     
 }

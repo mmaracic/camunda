@@ -6,6 +6,9 @@
 package camunda.test.controller;
 
 import java.nio.charset.StandardCharsets;
+import java.util.Map;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.AutoConfigureDataJpa;
@@ -14,6 +17,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.ApplicationContext;
 import org.springframework.http.MediaType;
 import org.springframework.test.annotation.Commit;
+import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
@@ -30,10 +34,14 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest
 @AutoConfigureDataJpa
 @AutoConfigureMockMvc
+@DirtiesContext
 public class TextControllerTest extends AbstractTestNGSpringContextTests {
 
     @Autowired
     private MockMvc mockMvc;
+
+    @Autowired
+    private ObjectMapper objectMapper;
 
     @Autowired
     private ApplicationContext context;
@@ -45,12 +53,9 @@ public class TextControllerTest extends AbstractTestNGSpringContextTests {
     }
 
     @Test
-    @Commit
     public void submitText() throws Exception {
-        String content = "Today is a nice day.";
-        MvcResult result = mockMvc.perform(post("/text/submit").accept(MediaType.APPLICATION_JSON_UTF8).contentType(MediaType.TEXT_PLAIN).content(content))
-                .andExpect(status().isOk()).andReturn();
-        String resultBody = new String(result.getResponse().getContentAsByteArray(),StandardCharsets.UTF_8);
-        log.info("Result: " + resultBody);
+        mockMvc.perform(post("/text/submit").accept(MediaType.APPLICATION_JSON_UTF8).contentType(MediaType.TEXT_PLAIN).content("Today is a nice day. It is"))
+          .andExpect(status().isOk()).andReturn();
+        Thread.sleep(5000);
     }
 }

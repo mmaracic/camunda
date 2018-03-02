@@ -20,7 +20,6 @@ import org.springframework.transaction.annotation.Transactional;
  */
 @Slf4j
 @Component
-@Transactional
 public class TokenizeTextDelegate implements JavaDelegate{
 
     @Autowired

@@ -22,7 +22,6 @@ import org.springframework.transaction.annotation.Transactional;
  */
 @Slf4j
 @Component
-@Transactional
 public class CalculateStatisticsDelegate implements JavaDelegate{
 
     @Autowired
