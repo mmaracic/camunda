@@ -6,14 +6,10 @@
 package camunda.test.jpa.model;
 
 import java.io.Serializable;
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
-import javax.persistence.SequenceGenerator;
-import javax.persistence.Table;
+import java.util.ArrayList;
+import java.util.List;
+import javax.persistence.*;
+
 import lombok.Getter;
 import lombok.Setter;
 
@@ -34,7 +30,7 @@ public class Token extends DatabaseObject implements Serializable {
     @OneToOne(mappedBy = "token", cascade = CascadeType.ALL)
     private StatisticData statisticData;
     
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "text_id", nullable = false)
-    private Text text;
+    private List<Text> texts = new ArrayList<>();
 }

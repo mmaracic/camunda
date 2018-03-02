@@ -51,7 +51,7 @@ public class TextService {
                 StatisticData statisticData = new StatisticData();
 
                 t.setValue(token);
-                t.setText(text);
+                t.getTexts().add(text);
                 t.setStatisticData(statisticData);
 
                 statisticData.setTokenCount(1L);
