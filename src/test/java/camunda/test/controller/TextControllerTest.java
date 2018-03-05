@@ -46,13 +46,13 @@ public class TextControllerTest extends AbstractTestNGSpringContextTests {
     @Autowired
     private ApplicationContext context;
 
-    @Test
+    @Test(enabled = false)
     public void checkController() {
         TextController controller = context.getBean(TextController.class);
         Assert.assertNotNull(controller, "Controller not preset. Context problem");
     }
 
-    @Test
+    @Test(enabled = false)
     public void submitText() throws Exception {
         mockMvc.perform(post("/text/submit").accept(MediaType.APPLICATION_JSON_UTF8).contentType(MediaType.TEXT_PLAIN).content("Today is a nice day. It is"))
           .andExpect(status().isOk()).andReturn();

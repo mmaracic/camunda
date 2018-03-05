@@ -27,6 +27,8 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 @SequenceGenerator(name = "sequence_generator", sequenceName = "seq_text_id", allocationSize = 50)
 @EntityListeners(AuditingEntityListener.class)
 public class Text extends DatabaseObject implements Serializable {
+    
+    @Lob
     @Column(name = "text", nullable = false)
     private String text;
     
@@ -35,6 +37,10 @@ public class Text extends DatabaseObject implements Serializable {
     private OffsetDateTime createDate;
     
     @ManyToMany(cascade = CascadeType.ALL)
-    @JoinColumn(name = "token_id", nullable = false)
+    @JoinTable(
+        name = "DTA_TEXT_TOKEN", 
+        joinColumns = { @JoinColumn(name = "text_id") }, 
+        inverseJoinColumns = { @JoinColumn(name = "token_id") }
+    )
     private List<Token> tokens = new ArrayList<>();
 }

@@ -27,55 +27,62 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 @Transactional(isolation = Isolation.SERIALIZABLE)
 public class TextService {
-
+    
     @Autowired
     private TextRepository textRepository;
-
+    
     @Autowired
     private TokenRepository tokenRepository;
-
+    
     public Text storeText(String text) {
         Text t = new Text();
         t.setText(text);
         return textRepository.save(t);
     }
-
+    
     public void tokenizeText(Long textId) {
         Text text = textRepository.findOne(textId);
         String[] tokens = text.getText().split(" |\r\n|\t");
         for (String token : tokens) {
-            Token t = tokenRepository.findByValue(token);
-            if (t == null) {
-
-                t = new Token();
-                StatisticData statisticData = new StatisticData();
-
-                t.setValue(token);
-                t.getTexts().add(text);
-                t.setStatisticData(statisticData);
-
-                statisticData.setTokenCount(1L);
-                statisticData.setToken(t);
-
-                text.getTokens().add(t);
-                tokenRepository.save(t);
-            } else {
-                StatisticData sd = t.getStatisticData();
-                sd.setTokenCount(sd.getTokenCount() + 1L);
-                
-                if (!text.getTokens().contains(t)){
-                    text.getTokens().add(t);
+            if (token.length() > 0) {
+                log.info("Token: " + token);
+                try {
+                    Token t = tokenRepository.findByValue(token);
+                    if (t == null) {
+                        
+                        t = new Token();
+                        StatisticData statisticData = new StatisticData();
+                        
+                        t.setValue(token);
+                        t.getTexts().add(text);
+                        t.setStatisticData(statisticData);
+                        
+                        statisticData.setTokenCount(1L);
+                        statisticData.setToken(t);
+                        
+                        text.getTokens().add(t);
+                        tokenRepository.save(t);
+                    } else {
+                        StatisticData sd = t.getStatisticData();
+                        sd.setTokenCount(sd.getTokenCount() + 1L);
+                        
+                        if (!text.getTokens().contains(t)) {
+                            text.getTokens().add(t);
+                        }
+                    }
+                } catch (Exception ex) {
+                    log.error("Exception: " +ex.getMessage());
                 }
             }
         }
     }
-
+    
     public Map<String, Long> fetchTextStatistics(Long textId) {
         Text text = textRepository.findOne(textId);
         Map<String, Long> statistics = new HashMap<>();
         List<Token> tokens = text.getTokens();
         tokens.stream().forEach(token -> statistics.put(token.getValue(), token.getStatisticData().getTokenCount()));
-        log.info("Statistics: "+statistics.toString());
+        log.info("Statistics: " + statistics.toString());
         return statistics;
     }
 }

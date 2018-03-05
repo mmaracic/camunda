@@ -37,6 +37,7 @@ public class TextController {
     @PostMapping(path = "/submit")
     @ResponseBody
     public void submitText(@RequestBody String submittedText){
+        log.debug("Submitted text: "+submittedText);
         Map<String, Object> variables = new HashMap<>();
         variables.put(TEXT, submittedText);
         ProcessInstanceWithVariables  process = runtimeService.createProcessInstanceByKey(TEXT_CAMUNDA_PROCESS_NAME).setVariables(variables).executeWithVariablesInReturn();

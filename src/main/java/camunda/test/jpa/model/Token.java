@@ -30,7 +30,6 @@ public class Token extends DatabaseObject implements Serializable {
     @OneToOne(mappedBy = "token", cascade = CascadeType.ALL)
     private StatisticData statisticData;
     
-    @ManyToMany(cascade = CascadeType.ALL)
-    @JoinColumn(name = "text_id", nullable = false)
+    @ManyToMany(cascade = CascadeType.ALL, mappedBy = "tokens")
     private List<Text> texts = new ArrayList<>();
 }

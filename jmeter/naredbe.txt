@@ -1,0 +1,6 @@
+tr '\t|\r\n' ' ' < Allegiance.txt | tr '.' '\r\n' | tr -d '"' > Output1.txt
+wc -w Output1.txt
+108865 Output1.txt
+
+JMeter
+jmeter -n -t Camunda_test_plan.jmx -l results.txt -e
