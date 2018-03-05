@@ -1,0 +1,3 @@
+10 usera, ramp up 10
+Loop cont 50
+Throughput: 120 uzoraka u minuti
