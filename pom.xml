@@ -40,6 +40,12 @@
             <artifactId>postgresql</artifactId>
             <version>42.2.1</version>
         </dependency>
+        <!-- ojdbc7.jar-->
+        <dependency>
+            <groupId>com.oracle</groupId>
+            <artifactId>ojdbc7</artifactId>
+            <version>12.1.0.1</version>
+        </dependency>
         <!-- https://mvnrepository.com/artifact/com.zaxxer/HikariCP -->
         <dependency>
             <groupId>com.zaxxer</groupId>
