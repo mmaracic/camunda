@@ -1,3 +1,8 @@
 10 usera, ramp up 10
 Loop cont 50
 Throughput: 120 uzoraka u minuti
+
+High load:
+10 usera, ramp up 10
+Loop cont 100
+Throughput: 600 uzoraka u minuti
