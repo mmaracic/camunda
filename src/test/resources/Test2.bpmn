@@ -20,6 +20,12 @@
     <bpmn:sequenceFlow id="SequenceFlow_1i1g3m1" sourceRef="ExclusiveGateway_1sbqiph" targetRef="Task_31b" />
     <bpmn:sequenceFlow id="SequenceFlow_01czkm8" sourceRef="StartEvent_1" targetRef="Task_1b" />
     <bpmn:serviceTask id="Task_1b" name="Task1b" camunda:delegateExpression="${testDelegate}">
+      <bpmn:extensionElements>
+        <camunda:properties>
+          <camunda:property name="statusName" value="TestStatus" />
+          <camunda:property name="notifyOrchestration" value="true" />
+        </camunda:properties>
+      </bpmn:extensionElements>
       <bpmn:incoming>SequenceFlow_01czkm8</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_14d41e4</bpmn:outgoing>
       <bpmn:outgoing>SequenceFlow_0tzt7f9</bpmn:outgoing>
