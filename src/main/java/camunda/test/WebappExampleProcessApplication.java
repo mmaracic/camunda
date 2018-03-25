@@ -20,7 +20,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @SpringBootApplication
 @EnableJpaAuditing
 @EnableTransactionManagement
-@ComponentScan(basePackages = {"camunda.test.controller", "camunda.test.delegate", "camunda.test.service"})
+@ComponentScan(basePackages = {"camunda.test.controller", "camunda.test.delegate", "camunda.test.listener", "camunda.test.service"})
 @EntityScan(basePackages = {"camunda.test.jpa.model"})
 @EnableJpaRepositories(basePackages = {"camunda.test.jpa.repository"})
 public class WebappExampleProcessApplication {

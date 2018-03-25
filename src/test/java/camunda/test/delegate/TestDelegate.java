@@ -25,6 +25,7 @@ public class TestDelegate implements JavaDelegate {
     String processId = delegateExecution.getProcessDefinitionId();
     String currentActivityName = delegateExecution.getCurrentActivityName();
     String currentActivityId = delegateExecution.getCurrentActivityId();
+    log.info("Executing activity {}", currentActivityName);
 
     //Extension properties
     FlowElement flowElement = delegateExecution.getBpmnModelElementInstance();
